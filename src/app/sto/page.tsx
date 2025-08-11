@@ -3,26 +3,21 @@ import { useServiceStore } from '@/store/pages/sto/sto'
 import { useEffect } from 'react'
 
 export default function StoPage() {
-const {serviceStations,getServiceStations}=useServiceStore()
-console.log('serviceStations :',serviceStations);
+  const { serviceStations, getServiceStations } = useServiceStore()
+  console.log('serviceStations :', serviceStations)
 
+  useEffect(() => {
+    getServiceStations()
+  }, [getServiceStations])
 
-useEffect(()=>{
-  getServiceStations()
-},[])
   return (
     <div>
       <h1>Страница СТО</h1>
       <div>
-
-        {
-          serviceStations?.map((el)=>(
-            <h1>{el.name}</h1>
-          ))
-        }
+        {serviceStations?.map((el) => (
+          <h1 key={el.id || el.name}>{el.name}</h1> 
+        ))}
       </div>
-
-
     </div>
-  );
+  )
 }

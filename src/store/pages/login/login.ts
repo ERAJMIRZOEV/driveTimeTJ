@@ -26,15 +26,18 @@ export const useLoginStore = create<AuthStore>((set) => ({
         throw new Error('Неверный email или пароль')
       }
 
-      // ✅ Генерируем фейковый токен (например, userId + время)
+      //  Генерируем фейковый токен
       const fakeToken = `token-${data[0].id}-${Date.now()}`
 
-  
       localStorage.setItem('accessToken', fakeToken)
 
       set({ token: fakeToken, isLoading: false })
-    } catch (err: any) {
-      set({ error: err.message || 'Ошибка входа', isLoading: false })
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        set({ error: err.message, isLoading: false })
+      } else {
+        set({ error: 'Ошибка входа', isLoading: false })
+      }
       throw err
     }
   }
